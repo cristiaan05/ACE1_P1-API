@@ -17,17 +17,28 @@ ma=Marshmallow(app)
 @app.route('/',methods=['GET'])
 def home():
     print("API CONECTADA")
+    query = text("SHOW TABLES;")
+    conn = db.engine.connect()
+    result = conn.execute(query)
+    column_names = result.keys()
+    # Construir una lista de diccionarios con los resultados
+    results_list = [dict(zip(column_names, row)) for row in result]
+    print("RESPONSE",results_list)
+    # Cerrar la conexión
+    conn.close()
 
     # Retornar los resultados como JSON en la respuesta
-    return jsonify("Api Conectada")
+    return jsonify(results_list)
+    # Retornar los resultados como JSON en la respuesta
+    #return jsonify("Api Conectada")
 
-@app.route('/night',methods=['GET'])
-def night():
+@app.route('/aire',methods=['GET'])
+def aire():
     # Obtener una conexión a la base de datos
     conn = db.engine.connect()
 
     # Realizar la consulta SELECT *
-    query = text("SELECT * FROM noche")
+    query = text("SELECT * FROM Aire")
     result = conn.execute(query)
     column_names = result.keys()
 
@@ -38,6 +49,59 @@ def night():
 
     # Retornar los resultados como JSON en la respuesta
     return jsonify(results_list)
+
+@app.route('/ilumina',methods=['GET'])
+def ilumina():
+    # Obtener una conexión a la base de datos
+    conn = db.engine.connect()
+
+    # Realizar la consulta SELECT *
+    query = text("SELECT * FROM Iluminacion")
+    result = conn.execute(query)
+    column_names = result.keys()
+
+    # Construir una lista de diccionarios con los resultados
+    results_list = [dict(zip(column_names, row)) for row in result]
+    # Cerrar la conexión
+    conn.close()
+
+    # Retornar los resultados como JSON en la respuesta
+    return jsonify(results_list)
+
+@app.route('/tempe',methods=['GET'])
+def tempe():
+    # Obtener una conexión a la base de datos
+    conn = db.engine.connect()
+
+    # Realizar la consulta SELECT *
+    query = text("SELECT * FROM Temperatura")
+    result = conn.execute(query)
+    column_names = result.keys()
+
+    # Construir una lista de diccionarios con los resultados
+    results_list = [dict(zip(column_names, row)) for row in result]
+    # Cerrar la conexión
+    conn.close()
+
+    # Retornar los resultados como JSON en la respuesta
+    return jsonify(results_list)
+
+@app.route('/actual',methods=['GET'])
+def actual():
+    # Obtener una conexión a la base de datos
+    conn = db.engine.connect()
+
+    # Realizar la consulta SELECT *
+    query = text("SELECT * FROM actual order by id desc limit 1")
+    result = conn.execute(query)
+    column_names = result.keys()
+    # Construir una lista de diccionarios con los resultados
+    results_list = [dict(zip(column_names, row)) for row in result]
+    # Cerrar la conexión
+    conn.close()
+
+    # Retornar los resultados como JSON en la respuesta
+    return jsonify(results_list[0])
 
 if __name__ == "__main__":
     app.run(port=port)
