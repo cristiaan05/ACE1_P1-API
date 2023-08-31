@@ -245,7 +245,7 @@ def apagar_luz():
         cursor.execute(sql,(0,0,0)) 
         connection.commit() 
         # Cerrar la conexión
-        conn.close()
+        #conn.close()
         cursor.close()
 
     # Retornar los resultados como JSON en la respuesta
