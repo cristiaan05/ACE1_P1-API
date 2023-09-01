@@ -132,20 +132,20 @@ def home():
 def actual():
     # Obtener una conexión a la base de datos
     conn = db.engine.connect()
-
+    parameter1 = request.args.get('id')
+    print(parameter1,"id")
     # Realizar la consulta SELECT *
-    query = text("SELECT * FROM actual ORDER BY id DESC LIMIT 10")
+    query = text("SELECT * FROM actual WHERE id="+parameter1)
     result = conn.execute(query)
     column_names = result.keys()
 
     # Construir una lista de diccionarios con los resultados
     results_list = [dict(zip(column_names, row)) for row in result]
-    print(results_list)
     # Cerrar la conexión
     conn.close()
 
     # Retornar los resultados como JSON en la respuesta
-    return jsonify(results_list)
+    return jsonify(results_list[0])
 
 connection = mysql.connector.connect(
     user='uwcz1z8tw0nrh0ey',
