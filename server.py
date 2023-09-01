@@ -134,7 +134,7 @@ def actual():
     conn = db.engine.connect()
 
     # Realizar la consulta SELECT *
-    query = text("SELECT * FROM actual ORDER BY id DESC LIMIT 1")
+    query = text("SELECT * FROM actual ORDER BY id DESC LIMIT 10")
     result = conn.execute(query)
     column_names = result.keys()
 
