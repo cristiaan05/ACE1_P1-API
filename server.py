@@ -145,7 +145,7 @@ def actual():
     conn.close()
 
     # Retornar los resultados como JSON en la respuesta
-    return jsonify(results_list)
+    return jsonify(results_list[0])
 
 connection = mysql.connector.connect(
     user='uwcz1z8tw0nrh0ey',
