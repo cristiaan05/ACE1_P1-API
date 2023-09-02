@@ -219,7 +219,7 @@ def encender_luz():
         cursor.close()
 
     # Retornar los resultados como JSON en la respuesta
-    return jsonify(results_list)
+    return jsonify(results_list[0])
 
 @app.route('/apagar_luz',methods=['GET'])
 def apagar_luz():
@@ -249,7 +249,7 @@ def apagar_luz():
         cursor.close()
 
     # Retornar los resultados como JSON en la respuesta
-    return jsonify(results_list)
+    return jsonify(results_list[0])
 
 
 @app.route('/notificacion',methods=['GET'])
