@@ -273,7 +273,7 @@ def notificacion():
     aire_habitacion_2_value = results_list[0]['aire_habitacion_2']
     
     # Realizar la consulta notificaicon aire
-    query = text("SELECT * FROM iluminacion ORDER BY id DESC LIMIT 1")
+    query = text("SELECT * FROM Iluminacion ORDER BY id DESC LIMIT 1")
     result = conn.execute(query)
     column_names = result.keys()
     # Construir una lista de diccionarios con los resultados
