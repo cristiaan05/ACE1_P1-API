@@ -294,6 +294,93 @@ def notificacion():
         cursor.close()
         if aire_habitacion_1_value == 1: 
             data["aire1"]=1
+            #aire deficiente
+            cursor = connection.cursor()
+            sql = "INSERT INTO Notificaciones (aviso) VALUES (%s)"
+            cursor.execute(sql,("La habitacion cuenta con una calidad de aire deficiente")) 
+            connection.commit() 
+            # Cerrar la conexión
+            conn.close()
+            cursor.close()
+        else:
+            data["aire2"]=1
+            #aire optimo
+            cursor = connection.cursor()
+            sql = "INSERT INTO Notificaciones (aviso) VALUES (%s)"
+            cursor.execute(sql,("La habitacion posee una calidad de aire optima")) 
+            connection.commit() 
+            # Cerrar la conexión
+            conn.close()
+            cursor.close()
+    #validaciones iluminacion
+    if  iluminacion_activa_1_value == 1 or iluminacion_activa_2_value ==1:
+        cursor = connection.cursor()  
+        sql = "INSERT INTO Iluminacion (Iluminacion_habitacion,Iluminacion_activa_1,Iluminacion_activa_2) VALUES (%s,%s,%s)"
+        cursor.execute(sql,(iluminacion_habitacion_value,0,0)) 
+        connection.commit() 
+        # Cerrar la conexión
+        conn.close()
+        cursor.close()
+        if iluminacion_activa_1_value == 1: 
+            data["luz1"]=1
+            #habitacion encendida
+            cursor = connection.cursor()
+            sql = "INSERT INTO Notificaciones (aviso) VALUES (%s)"
+            cursor.execute(sql,("La habitacion esta iluminada pero no hay presencia humana")) 
+            connection.commit() 
+            # Cerrar la conexión
+            conn.close()
+            cursor.close()
+        else:
+            data["luz2"]=1
+            #habitacion apagada
+            cursor = connection.cursor()
+            sql = "INSERT INTO Notificaciones (aviso) VALUES (%s)"
+            cursor.execute(sql,("El sistema de iluminacion ha sido apagado")) 
+            connection.commit() 
+            # Cerrar la conexión
+            conn.close()
+            cursor.close() 
+    data={
+        "aire1":0,
+        "aire2":0,
+        "luz1":0,
+        "luz2":0
+    }
+    # Obtener una conexión a la base de datos
+    conn = db.engine.connect()
+
+    # Realizar la consulta notificaicon aire
+    query = text("SELECT * FROM Aire ORDER BY id DESC LIMIT 1")
+    result = conn.execute(query)
+    column_names = result.keys()
+    # Construir una lista de diccionarios con los resultados
+    results_list = [dict(zip(column_names, row)) for row in result]
+    aire_habitacion_1_value = results_list[0]['aire_habitacion_1']
+    aire_habitacion_2_value = results_list[0]['aire_habitacion_2']
+    
+    # Realizar la consulta notificaicon aire
+    query = text("SELECT * FROM Iluminacion ORDER BY id DESC LIMIT 1")
+    result = conn.execute(query)
+    column_names = result.keys()
+    # Construir una lista de diccionarios con los resultados
+    results_list = [dict(zip(column_names, row)) for row in result]
+    print(results_list)
+    iluminacion_habitacion_value = results_list[0]['Iluminacion_habitacion']
+    iluminacion_activa_1_value = results_list[0]['Iluminacion_activa_1']
+    iluminacion_activa_2_value = results_list[0]['Iluminacion_activa_2']
+
+    #validaciones aire
+    if  aire_habitacion_1_value == 1 or aire_habitacion_2_value ==1:
+        cursor = connection.cursor()  
+        sql = "INSERT INTO aire (aire_habitacion_1,aire_habitacion_2) VALUES (%s,%s)"
+        cursor.execute(sql,(0,0)) 
+        connection.commit() 
+        # Cerrar la conexión
+        conn.close()
+        cursor.close()
+        if aire_habitacion_1_value == 1: 
+            data["aire1"]=1
         else:
             data["aire2"]=1
     #validaciones iluminacion
@@ -318,6 +405,23 @@ def notificacion():
     # Retornar los resultados como JSON en la respuesta
     return jsonify(data)
 
+@app.route('/notificaciones',methods=['GET'])
+def notificaciones():
+    # Obtener una conexión a la base de datos
+    conn = db.engine.connect()
+
+    # Realizar la consulta SELECT *
+    query = text("SELECT * FROM Notificaciones")
+    result = conn.execute(query)
+    column_names = result.keys()
+
+    # Construir una lista de diccionarios con los resultados
+    results_list = [dict(zip(column_names, row)) for row in result]
+    # Cerrar la conexión
+    conn.close()
+
+    # Retornar los resultados como JSON en la respuesta
+    return jsonify(results_list)
 
 
 if __name__=='__main__':
