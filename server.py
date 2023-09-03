@@ -115,7 +115,7 @@ import mysql.connector
 app=Flask(__name__)
 CORS(app)
 #app.config['SQL_ALCHEMY_DATABASE_URI']='sqlite:///database.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://uwcz1z8tw0nrh0ey:OeX1Pjhhuve1VA5v0Pd8@bmotoxcjvbuzkz2ic55p-mysql.services.clever-cloud.com:3306/bmotoxcjvbuzkz2ic55p'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://uioqtyvifbcq4uvd:nsc7lCQOKwlgg6czKDR@bdmwjg39hmizh6g572f1-mysql.services.clever-cloud.com:20109/bdmwjg39hmizh6g572f1'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
 db=SQLAlchemy(app)
@@ -145,14 +145,14 @@ def actual():
     conn.close()
 
     # Retornar los resultados como JSON en la respuesta
-    return jsonify(results_list[0])
+    return jsonify(results_list)
 
 connection = mysql.connector.connect(
-    user='uwcz1z8tw0nrh0ey',
-    password='OeX1Pjhhuve1VA5v0Pd8',
-    host='bmotoxcjvbuzkz2ic55p-mysql.services.clever-cloud.com',
-    database='bmotoxcjvbuzkz2ic55p',
-    port='3306'
+    user='uioqtyvifbcq4uvd',
+    password='nsc7lCQOKwlgg6czKDR',
+    host='bdmwjg39hmizh6g572f1-mysql.services.clever-cloud.com',
+    database='bdmwjg39hmizh6g572f1',
+    port='20109'
 )
 
 @app.route('/encender_vent1',methods=['GET'])
